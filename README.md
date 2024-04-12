@@ -1,435 +1,132 @@
-[![Release](https://img.shields.io/badge/release-v2.6.0-blue.svg)](https://github.com/scaleflex/js-cloudimage-360-view/releases)
-[![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](#contributing)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Scaleflex team](https://img.shields.io/badge/%3C%2F%3E%20with%20%E2%99%A5%20by-the%20Scaleflex%20team-6986fa.svg)](https://www.scaleflex.it/en/home)
-
-[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Engage%20your%20customers%20with%20a%20stunning%20360%20viewvof%20your%20products&url=https://scaleflex.github.io/js-cloudimage-360-view/&via=cloudimage&hashtags=images,cloudimage)
-
-<p align="center">
-	<img
-		height="175"
-		alt="The Lounge"
-		src="https://demo.cloudimg.io/height/350/n/https://scaleflex.airstore.io/filerobot/filerobot-cloudimage.png?sanitize=true">
-</p>
-
-<h1 align="center">
-   JS Cloudimage 360 View
-</h1>
-
-<p align="center">
-	<strong>
-		<a href="#table_of_contents">Docs</a>
-		•
-		<a href="https://scaleflex.github.io/js-cloudimage-360-view/" target="_blank">Demo</a>
-		•
-		<a href="https://codesandbox.io/s/6479n17j73?fontsize=14&module=%2Findex.html" target="_blank">Code Sandbox</a>
-		•
-		<a href="https://youtu.be/zXUgrvZ7FMc" target="_blank">Video Tutorial</a>
-		•
-		<a href="https://medium.com/cloudimage/e-merchandising-how-can-a-360-view-of-your-products-boost-your-revenue-24b16eb9cd62" target="_blank">Why</a>
-	</strong>
-</p>
+# wxcloudrun-thinkphp
+[![GitHub license](https://img.shields.io/github/license/WeixinCloud/wxcloudrun-express)](https://github.com/WeixinCloud/wxcloudrun-express)
+![GitHub package.json dependency version (prod)](https://img.shields.io/badge/php-7.3-green)
 
-A simple, interactive resource that can be used to provide a virtual tour of your product.
+微信云托管 Thinkphp 框架模版，实现简单的计数器读写接口，使用云托管 MySQL 读写、记录计数值。
 
-<p align="center">
-	<img
-		alt="The Lounge"
-		src="https://scaleflex.ultrafast.io/https://scaleflex.airstore.io/filerobot/js-cloudimage-360-view/demo-chair-500.gif?sanitize=true">
-</p>
+![](https://qcloudimg.tencent-cloud.cn/raw/be22992d297d1b9a1a5365e606276781.png)
 
-powered by [Cloudimage](https://www.cloudimage.io/)
-([Watch the video here](https://www.youtube.com/watch?time_continue=2&v=JFZSE1vYb0k))
 
-## <a name="table_of_contents"></a>Table of contents
+## 快速开始
+前往 [微信云托管快速开始页面](https://developers.weixin.qq.com/miniprogram/dev/wxcloudrun/src/basic/guide.html)，选择相应语言的模板，根据引导完成部署。
 
-* [Demo](#demo)
-* [Step 1: Installation](#installation)
-* [Step 2: Initialize](#initialize)
-* [Methods](#methods)
-* [Configuration](#configuration)
-* [Controls](#controls)
-* [Cloudimage responsive integration](#cloudimage-responsive-integration)
-* [Lazy loading integration](#lazy-loading)
-* [Best practices](#best-practices)
-* [Browser support](#browser_support)
-* [Filerobot UI Family](#ui_family)
-* [Contributing](#contributing)
-* [License](#license)
+## 本地调试
+下载代码在本地调试，请参考[微信云托管本地调试指南](https://developers.weixin.qq.com/miniprogram/dev/wxcloudrun/src/guide/debug/)
 
+## 实时开发
+代码变动时，不需要重新构建和启动容器，即可查看变动后的效果。请参考[微信云托管实时开发指南](https://developers.weixin.qq.com/miniprogram/dev/wxcloudrun/src/guide/debug/dev.html)
 
-## <a name="demo"></a> Demo
+## Dockerfile最佳实践
+请参考[如何提高项目构建效率](https://developers.weixin.qq.com/miniprogram/dev/wxcloudrun/src/scene/build/speed.html)
 
-To see the Cloudimage 360 view plugin in action, please check out the
-[Demo page](https://scaleflex.github.io/js-cloudimage-360-view/).
 
-## <a name="installation"></a>Step 1: Installation
+## 目录结构说明
+~~~
+.
+├── Dockerfile                  Dockerfile 文件
+├── README.md                   README 文件
+├── app                         应用目录
+│   ├── controller              控制器目录
+│   ├── model                   模型目录
+│   └── view                    视图目录
+├── conf                        配置文件
+│   ├── fpm.conf                fpm 配置
+│   ├── nginx.conf              nginx 配置
+│   └── php.ini                 php 配置
+├── config                      thinkphp 配置
+├── container.config.json       模板部署「服务设置」初始化配置（二开请忽略）
+├── public                      WEB目录（对外访问目录）
+│   ├── favicon.ico             图标
+│   ├── index.php               入口文件       
+│   └── router.php              快速测试文件 
+├── route                       路由文件			
+│   └── app.php                 定义应用路由
+├── run.sh                      nginx、fpm 启动
+├── runtime                     应用的运行时目录（可写，可定制）
+├── think                       命令行入口文件
+└── vendor                      第三方类库目录
+~~~
 
-Add script tag with CDN link to js-cloudimage-360-view lib after all content in body tag
 
-```javascript
-<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-360-view/2.6.0/js-cloudimage-360-view.min.js"></script>
-```
+## 服务 API 文档
 
-## <a name="initialize"></a>Step 2: Initialize
+### `GET /api/count`
 
-After adding the js-cloudimage-360-view lib, simply initialize it with **class name "cloudimage-360"**,
-**server folder path**, **file name** and amount of images:
+获取当前计数
 
-```html
-<div
-   class="cloudimage-360"
-   data-folder="https://scaleflex.cloudimg.io/crop/1920x700/n/https://scaleflex.airstore.io/demo/360-car/"
-   data-filename="iris-{index}.jpeg"
-   data-amount="36"
-></div>
-```
+#### 请求参数
 
-<a href="https://codesandbox.io/s/6479n17j73?fontsize=14&module=%2Findex.html"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edit in codesandbox"/></a>
+无
 
-## <a name="methods"></a> Methods
+#### 响应结果
 
-### init
+- `code`：错误码
+- `data`：当前计数值
 
-###### Type: **Function**
+##### 响应结果示例
 
-Initialization of js cloudimage 360 view plugin.
-
-```javascript
-window.CI360.init();
-```
-
-> NOTE: initialization of the plugin runs on the script load. In case you need to postpone the initialization of the plugin you can disable it with **notInitOnLoad** param
-> ```javascript
-> <script>window.CI360 = { notInitOnLoad: true }</script>
-> <script src="https://cdn.scaleflex.it/plugins/js-cloudimage-360-view/2/js-cloudimage-360-view.min.js"></script>
-> <script>window.CI360.init(); // initialize the plugin when you need</script>
-> ```
-
-### destroy
-
-###### Type: **Function**
-
-Destroying a cloudimage 360 viewer instance will reset the HTML to its original state.
-
-```javascript
-window.CI360.destroy();
-```
-<a href="https://codesandbox.io/s/js-cloudimage-360-view-initdestroy-y1il9">
-	<img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edit in codesandbox"/></a>
-
-### getActiveIndexByID
-
-###### Type: **Function**
-
-Get the {index} of the image that is being viewed.
-
-```javascript
-window.CI360.getActiveIndexByID('id_of_product');
-```
-
-## <a name="configuration"></a> Config
-
-### class
-
-###### Type: **String** | Value: **"cloudimage-360"** | _required_
-
-The selector for js-cloudimage-360-view lib.
-
-### data-folder (or folder)
-
-###### Type: **String(url)** | _required_
-
-Your images folder on server.
-
-### data-filename (or filename)
-
-###### Type: **String** | Default: **image-{index}.jpg** | _optional_
-
-The filename pattern for your 360 image.  Must include {index}, which the library will replace with a number between 1 and [data-amount](#data-amount).
-
-### <a name="data-amount"></a> data-amount (or amount)
-
-###### Type: **Number** | Default: **36** | _optional_
-
-Amount of images to load for 360 view.
-
-### data-keys (or keys)
-
-###### Type: **Bool** | Default: **false** | _optional_
-
-Support for 360 spin by pressing arrow keys on keyboard.
-
-### data-autoplay (or autoplay)
-
-###### Type: **Bool** | Default: **false** | _optional_
-
-Autoplay 360 spin view on load.
-
-### data-full-screen (or full-screen)
-
-###### Type: **Bool** | Default: **false** | _optional_
-
-Open 360 spin view in full screen modal.
-
-### data-magnifier (or magnifier)
-
-###### Type: **Number** | Default: **none** | _optional_
-
-Magnifier to zoom image.
-
-### data-ratio (or ratio)
-
-###### Type: **Number** (height / width) | Default: **none** | _optional_
-
-Prevents page from jumping.
-
-### data-autoplay-reverse (or autoplay-reverse)
-
-###### Type: **Bool** | Default: **false** | _optional_
-
-Autoplay 360 spin view on load.
-
-### data-speed (or speed)
-
-###### Type: **Number** | Default: **150** | _optional_
-
-Speed of changing frames for autoplay in milliseconds.
-
-### data-drag-speed (or drag-speed)
-
-###### Type: **Number** | Default: **150** | _optional_
-
-Speed Factor of changing frames on drag event.
-
-### data-spin-reverse (or spin-reverse)
-
-###### Type: **Bool** | Default: **false** | _optional_
-
-Spin direction, by default it uses counterclockwise (image indexes from 1 to data-amount).
-
-### data-box-shadow (or box-shadow)
-
-###### Type: **String** (e.g. data-box-shadow="inset 0 0 100px #222") | Default: **none** | _optional_
-
-Apply box shadow for container.
-
-### data-bottom-circle (or bottom-circle)
-
-###### Type: **Bool** | Default: **false** | _optional_
-
-Display 360 view line at the bottom of container.
-
-### data-hide-360-logo (or hide-360-logo)
-
-###### Type: **Bool** | Default: **false** | _optional_
-
-Hide 360 view icon.
-
-### data-logo-src (or logo-src)
-
-###### Type: **String** | Default: **https://scaleflex.ultrafast.io/https://scaleflex.airstore.io/filerobot/js-cloudimage-360-view/360_view.svg** | _optional_
-
-URL of asset to use as the 360 view icon.
-
-### data-control-reverse (or control-reverse)
-
-###### Type: **Bool** | Default: **false** | _optional_
-
-Spin direction using controls, by default it uses counterclockwise (image indexes from 1 to data-amount).
-
-### data-stop-at-edges (or stop-at-edges)
-
-###### Type: **Bool** | Default: **false** | _optional_
-
-Blocks repeating images after reaching last image (or first image in opposite direction)
-
-### data-bottom-circle-offset (or bottom-circle-offset)
-
-###### Type: **Number** | Default: **5** | _optional_
-
-Bottom offset for 360 view line.
-
-### data-index-zero-base (or index-zero-base)
-
-###### Type: **Number** | _optional_
-
-Left zero padding on filename. For example: index-zero-base="4" => image index will be "0004"
-
-### data-image-list (or image-list)
-
-###### Type: **Array** | _optional_
-
-Option to add list of images instead of `folder` & `filename`.
-
-example:
-
-```javascript
-data-folder="https://scaleflex.airstore.io/demo/360-car/"
-data-image-list='[
-   "iris-1.jpeg",
-   "iris-4.jpeg",
-   "https://scaleflex.airstore.io/demo/360-car/iris-12.jpeg",
-   "https://scaleflex.airstore.io/demo/360-car/iris-15.jpeg"
-   ]’
-```
-
-### data-lazyload (or lazyload)
-
-###### Type: **Bool** | Default: **false** | _optional_
-
-Only 360 view images close to the client's viewport will be loaded, hence accelerating the page loading time. If set to true, an additional script must be included, see [Lazy loading](#lazy-loading)
-
-### data-lazyload-selector (or lazyload-selector)
-
-###### Type: **String** | Default: **lazyload** | _optional_
-
-Helper class to apply lazy-loading depending on library you choose, see [Lazy loading](#lazy-loading)
-
-## <a name="controls"></a> Controls
-
-You can add controls by adding elements with the following classes: **cloudimage-360-prev**, **cloudimage-360-next**
-
-### Example CSS
-```css
-.cloudimage-360 .cloudimage-360-prev, .cloudimage-360 .cloudimage-360-next {
-	padding: 8px;
-	background: rgba(255, 255, 255, 0.5);
-	border: none;
-	border-radius: 4px;
-}
-.cloudimage-360 .cloudimage-360-prev:focus, .cloudimage-360 .cloudimage-360-next:focus {
-	outline: none;
-}
-.cloudimage-360 .cloudimage-360-prev {
-	display: none;
-	position: absolute;
-	z-index: 100;
-	top: calc(50% - 15px);
-	left: 20px;
-}
-.cloudimage-360 .cloudimage-360-next {
-	display: none;
-	position: absolute;
-	z-index: 100;
-	top: calc(50% - 15px);
-	right: 20px;
-}
-.cloudimage-360 .cloudimage-360-prev:before, .cloudimage-360 .cloudimage-360-next:before {
-	content: '';
-	display: block;
-	width: 30px;
-	height: 30px;
-	background: 50% 50% / cover no-repeat;
-}
-.cloudimage-360 .cloudimage-360-prev:before {
-	background-image: url('https://cdn.scaleflex.it/plugins/js-cloudimage-360-view/assets/img/arrow-left.svg');
-}
-.cloudimage-360 .cloudimage-360-next:before {
-	background-image: url('https://cdn.scaleflex.it/plugins/js-cloudimage-360-view/assets/img/arrow-right.svg');
-}
-.cloudimage-360 .cloudimage-360-prev.not-active, .cloudimage-360 .cloudimage-360-next.not-active {
-	opacity: 0.4;
-	cursor: default;
+```json
+{
+  "code": 0,
+  "data": 42
 }
 ```
-### Example HTML
-```html
-<div
-	class="cloudimage-360"
-	data-folder="https://scaleflex.airstore.io/demo/indoor/"
-	data-filename="{index}.jpeg"
->
-	<button class="cloudimage-360-prev"></button>
-	<button class="cloudimage-360-next"></button>
-</div>
+
+#### 调用示例
+
 ```
-
-<a href="https://codesandbox.io/s/js-cloudimage-360-view-361eb?fontsize=14"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edit in codesandbox"/></a>
-
-## <a name="cloudimage-responsive-integration"/> Cloudimage Responsive Integration
-
-[See how it works (article on Medium)](https://medium.com/cloudimage/responsive-images-in-2019-now-easier-than-ever-b76e5a43c074)
-
-### Requirements
-
-To use the Cloudimage Responsive plugin, you will need a
-Cloudimage token to deliver your images over CDN. Don't worry, it only takes seconds to get one by
-registering [here](https://www.cloudimage.io/en/register_page).
-Once your token is created, you can configure it as described below.
-This token allows you to use 25GB of image cache and 25GB of worldwide
-CDN traffic per month for free.
-
-### data-responsive (or responsive)
-
-###### Type: **String** (Cloudimage token) | Default: **none** | _required for cloudimage responsive plugin_
-
-Enables cloudimage responsive plugin for 360 view.
-
-### data-filters (or filters)
-
-###### Type: **String** | Default: **q35** | _optional_
-
-Applies default Cloudimage filters to your image, e.g. fcontrast, fpixelate, fgaussian, backtransparent,
-rotation...  Multiple filters can be applied, separated by "```.```" (dot).
-
-[Full documentation here.](https://docs.cloudimage.io/go/cloudimage-documentation/en/filters/)
-
-## <a name="lazy-loading"/> Lazy Loading
-
-Lazy loading is not included into js-cloudimage-360-view by default. There are well thought libraries to achieve that. If you enable lazy loading in the configuration, you need to add an additional library like [lazysizes](https://github.com/aFarkas/lazysizes), [yall.js (Yet Another Lazy Loader)](https://github.com/malchata/yall.js), [lozad.js](https://github.com/ApoorvSaxena/lozad.js) to handle it.
-
-[Implementation example with lazysizes](https://codesandbox.io/s/w7vx5w1ln7?fontsize=14)
-
-[Implementation example with yall.js](https://codesandbox.io/s/ym2xrk87xv?fontsize=14)
-
-[Implementation example with lozad.js](https://codesandbox.io/s/0185934m8p?fontsize=14)
-
-to save API calls you man want to use one of our cdn bundles:
-
-CDN link to js-cloudimage-360-view 1.1.0 + lazysizes 4.1.7
-
-```javascript
-<script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-360-view/v2.0.0.lazysizes.min.js"></script>
-```
-
-CDN link to js-cloudimage-360-view 1.1.0 + yall.js 3.1.1
-
-```javascript
-<script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-360-view/v2.0.0.yall.min.js"></script>
-```
-
-CDN link to js-cloudimage-360-view 1.1.0 + lozad.js 1.9.0
-
-```javascript
-<script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-360-view/v2.0.0.lozad.min.js"></script>
+curl https://<云托管服务域名>/api/count
 ```
 
 
-## <a name="best-practices"/> Best practices
 
-* In order to use cloudimage responsive with 360 view, your original (master) images should be stored on a server
-or storage bucket (S3, Google Cloud, Azure Blob...) reachable over
-HTTP or HTTPS by Cloudimage. If you want to upload your master images to
-Cloudimage, contact us at
-[hello@cloudimage.io](mailto:hello@cloudimage.io).
+### `POST /api/count`
 
-## <a name="browser_support"></a> Browser support
+更新计数，自增或者清零
 
-Tested in all modern browsers and IE 11, 10, 9.
+#### 请求参数
 
-## <a name="ui_family"></a>Filerobot UI Familiy
+- `action`：`string` 类型，枚举值
+  - 等于 `"inc"` 时，表示计数加一
+  - 等于 `"clear"` 时，表示计数重置（清零）
 
-* [JS Cloudimage Responsive](https://github.com/scaleflex/js-cloudimage-responsive)
-* [React Cloudimage Responsive](https://github.com/scaleflex/react-cloudimage-responsive)
-* [Angular Cloudimage Responsive](https://github.com/scaleflex/ng-cloudimage-responsive)
-* [Image Editor](https://github.com/scaleflex/filerobot-image-editor)
-* [Uploader](https://github.com/scaleflex/filerobot-uploader)
+##### 请求参数示例
 
-## <a name="contributing"></a>Contributing!
+```
+{
+  "action": "inc"
+}
+```
 
-All contributions are super welcome!
+#### 响应结果
 
-## <a name="license"></a>License
-JS Cloudimage 360 View is provided under the [MIT License](https://opensource.org/licenses/MIT)
+- `code`：错误码
+- `data`：当前计数值
 
+##### 响应结果示例
+
+```json
+{
+  "code": 0,
+  "data": 42
+}
+```
+
+#### 调用示例
+
+```
+curl -X POST -H 'content-type: application/json' -d '{"action": "inc"}' https://<云托管服务域名>/api/count
+```
+
+## 使用注意
+如果不是通过微信云托管控制台部署模板代码，而是自行复制/下载模板代码后，手动新建一个服务并部署，需要在「服务设置」中补全以下环境变量，才可正常使用，否则会引发无法连接数据库，进而导致部署失败。
+- MYSQL_ADDRESS
+- MYSQL_PASSWORD
+- MYSQL_USERNAME
+以上三个变量的值请按实际情况填写。如果使用云托管内MySQL，可以在控制台MySQL页面获取相关信息。
+
+
+
+## License
+
+[MIT](./LICENSE)
